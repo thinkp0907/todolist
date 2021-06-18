@@ -7,12 +7,13 @@ import TodoitemList from "./components/js/TodoitemList";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.id = 2;
-    this.state = {
-      // *** Form.js에서 Hook(useState) 사용으로 인해 제거
+          // *** Form.js에서 Hook(useState) 사용으로 인해 제거
       // input: "",
-      todos: [],
-    };
+      this.state = {
+        todos:[
+
+        ]
+      }   
     // this.handleChange = this.handleChange.bind(this);
     this.handleCreate = this.handleCreate.bind(this);
     // this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -27,7 +28,7 @@ class App extends React.Component {
   handleInitInfo() {
     fetch("/api/todos")
       .then((res) => res.json())
-      .then((todos) => this.setState({ todos: todos }))
+      .then((todos) => this.setState({todos:todos}))
       .catch((err) => console.log(err));
   }
 
@@ -43,7 +44,7 @@ class App extends React.Component {
   // 등록
   handleCreate(inputValue) {
     const { todos } = this.state;
-    if (inputValue == "") {
+    if (inputValue === "") {
       alert("오늘 할 일을 입력해주세요.");
       return;
     }
@@ -53,7 +54,7 @@ class App extends React.Component {
       // input: "",
       // concat을 사용하여 배열에 추가
       todos: todos.concat({
-        id: 0, // 임의의 id를 부여하여 key error를 방지
+        id: 0,   // 임의의 id를 부여하여 key error를 방지
         content: inputValue,
         isComplete: false,
       }),
@@ -61,7 +62,7 @@ class App extends React.Component {
 
     // 처리
     const data = {
-      body: JSON.stringify({ content: inputValue }),
+      body: JSON.stringify({"content": inputValue }),
       headers: { "Content-Type": "application/json" },
       method: "post",
     };
@@ -88,11 +89,12 @@ class App extends React.Component {
     const { todos } = this.state;
 
     const isComplete = todos.find((todo) => todo.id === id).isComplete;
+    console.log("id")
+    console.log(todos.find((todo) => todo.id === id))
+    console.log("iscomplete: ")
+    console.log(isComplete)
     if (
-      !window.confirm(
-        isComplete ? "미완료 처리 하시겠습니까?" : "완료 처리 하시겠습니까?"
-      )
-    ) {
+      !window.confirm(isComplete ? "미완료 처리 하시겠습니까?" : "완료 처리 하시겠습니까?")) {
       return;
     }
 
@@ -116,9 +118,10 @@ class App extends React.Component {
     });
 
     const data = {
-      headers: { "Content-Type": "application/json" },
-      mehtod: "put",
+      headers: {"Content-Type":"application/json"},
+      method: "put",
     };
+    console.log(data);
     fetch("/api/todos/" + id, data)
       .then((res) => {
         if (!res.ok) {
@@ -143,7 +146,7 @@ class App extends React.Component {
 
     const data = {
       headers: { "Content-Type": "application/json" },
-      mehtod: "delete",
+      method: "delete",
     };
     fetch("/api/todos/" + id, data)
       .then((res) => {

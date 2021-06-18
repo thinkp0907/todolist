@@ -24,7 +24,9 @@ class Todoitem extends React.Component {
         <div className={`todo-item-text ${isComplete && "isComplete"}`}>
           <div>{content}</div>
         </div>
-        {isComplete && <div className="isComplete-mark">✓</div>}
+        {
+        isComplete && (<div className="isComplete-mark">✓</div>)
+        }
       </div>
     );
   }
